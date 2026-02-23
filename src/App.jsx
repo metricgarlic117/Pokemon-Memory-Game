@@ -1,5 +1,4 @@
-import { FlatESLint } from "eslint/use-at-your-own-risk";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function getUniqueRandomInts(count, min, max) {
   const set = new Set();
@@ -16,7 +15,7 @@ function capitalizeWord(word) {
 }
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const [card, setCard] = useState([]);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     const fetchRandomPokemon = async () => {
@@ -32,25 +31,44 @@ const App = () => {
               `https://pokeapi.co/api/v2/pokemon/${id}`,
             );
             const data = await response.json();
-
+            console.log(data);
             return {
               id: data.id,
               name: capitalizeWord(data.name),
-              image: data.sprites?.front_default,
+              image: data.sprites.front_default,
             };
           }),
         );
 
         const clean = pokemonData.filter((p) => p.image);
-        setCard(clean);
+        setCards(clean);
       } catch (error) {
+        console.log(`Have soem error: ${error}`);
       } finally {
         setLoading(false);
       }
     };
+    fetchRandomPokemon();
   }, []);
 
-  return <div></div>;
+  return (
+    <div>
+      <h1>Pokemon Card</h1>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {cards.map((card) => (
+            <button key={card.id} type="">
+              <img src={card.image} alt={card.name} />
+              <div>{card.name}</div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default App;
