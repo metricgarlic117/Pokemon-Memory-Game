@@ -7,14 +7,14 @@
 ## 📖 Description
 Pokemon Memory Game is a dynamic, web-based memory card game built with React. The objective of the game is simple: earn points by clicking on different Pokemon cards, but avoid clicking on any card more than once. The game pulls live data from the [PokéAPI](https://pokeapi.co/), populating the board with a fresh set of Pokémon every time to ensure no two games feel exactly the same!
 
+## 🎮 Live Demo
+Play the game live here: **[Pokemon Memory Game](https://metricgarlic17.github.io/Pokemon-Memory-Game/)**
+
 ## ✨ Features
 - **Dynamic Data Fetching**: Retrieves random Pokémon data and sprites on load via PokéAPI.
 - **Score Tracking**: Keeps track of your current score and your highest score across attempts.
 - **Card Shuffling**: The board automatically scrambles after every valid click to challenge your memory.
 - **Win/Loss Conditions**: Win the game by successfully clicking 10 unique Pokémon. Click a duplicate, and you lose!
-
-## 📸 Screenshots
-*(Coming soon - add images of your game board here)*
 
 ## 🛠️ Tech Stack
 - **Frontend**: React 19, Vite
