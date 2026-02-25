@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "./components/Card";
+import "./App.css";
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -35,6 +36,9 @@ function getUniqueRandomInt(count, min, max) {
 const App = () => {
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
+  const [memory, setMemory] = useState([]);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
 
   useEffect(() => {
     const fetchRandomPokemon = async () => {
@@ -69,24 +73,54 @@ const App = () => {
     fetchRandomPokemon();
   }, []);
 
-  const shuffleCardsOnClick = () => {
-    setCards((prevCards) => shuffleArray(prevCards));
-  };
+  useEffect(() => {
+    console.log(memory);
+  }, [memory]);
 
+  useEffect(() => {
+    if (score === 10) {
+      window.alert("You Win!");
+    }
+  }, [score]);
+
+  const handleCardsOnClick = (id) => {
+    setMemory((prevMemory) => {
+      const alreadyClicked = prevMemory.includes(id);
+
+      if (alreadyClicked) {
+        //lose
+        setBestScore((prevBest) => Math.max(prevBest, score));
+        setScore(0);
+        setCards((prevCards) => shuffleArray(prevCards));
+        window.alert("Sorry, you lose");
+        return [];
+      } else {
+        //correct
+
+        setScore((prevScore) => prevScore + 1);
+
+        setCards((prevCards) => shuffleArray(prevCards));
+        return [...prevMemory, id];
+      }
+    });
+  };
   return (
     <div>
       <h1>Pokemon Memory Game</h1>
 
+      <p>Current Score : {score}</p>
+      <p>Highest Score : {bestScore}</p>
+
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <div>
+        <div className="card_container">
           {cards.map((card) => (
             <Card
               key={card.id}
               name={card.name}
               image={card.image}
-              onClick={() => shuffleCardsOnClick()}
+              onClick={() => handleCardsOnClick(card.id)}
             />
           ))}
         </div>
